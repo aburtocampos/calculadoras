@@ -1,3 +1,12 @@
 
 
 
+
+.bgroot{
+    position: relative; /* Posición relativa para contener sus elementos hijos */
+    width: 100%;
+    height: 100vh; /* Ocupa toda la ventana */
+    background: url('./assets/bgti.jpg') no-repeat center center/cover; /* Imagen de fondo */
+  /*   filter: blur(5px); Aplica el desenfoque */
+    overflow: hidden; 
+}

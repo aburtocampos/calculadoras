@@ -39,7 +39,7 @@ const CalculadoraPension = () => {
             type="number"
             {...register('ingresosNetos', { required: true, min: 0 })}
             className="w-full p-2 border rounded text-gray-700"
-            placeholder="Ejemplo: 30000"
+            placeholder="Ejemplo: 10000"
           />
           {errors.ingresosNetos && <p className="text-red-500 text-sm">Ingrese un número válido.</p>}
         </div>
@@ -49,7 +49,7 @@ const CalculadoraPension = () => {
             type="number"
             {...register('numeroHijos', { required: true, min: 1 })}
             className="w-full p-2 border rounded text-gray-700"
-            placeholder="Ejemplo: 2"
+            placeholder="1,2,3,..."
           />
           {errors.numeroHijos && <p className="text-red-500 text-sm">Debe ser al menos 1 hijo.</p>}
         </div>
