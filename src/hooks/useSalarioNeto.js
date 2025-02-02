@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 // Formateador de moneda
 const formatter = new Intl.NumberFormat("en-US", {
@@ -10,6 +10,15 @@ const formatter = new Intl.NumberFormat("en-US", {
 const useCalculadoraSueldo = () => {
   const [resultados, setResultados] = useState(null);
   const [isCalculated, setIsCalculated] = useState(false);
+  const [input, setInput] = useState("");
+
+  function handleChange(event){
+    setInput(event.target.value);
+  }
+
+  useEffect(() => {
+    localStorage.setItem("input", input);
+  }, [input]); 
 
   // Función para calcular el IR
   const calcularIR = (salarioDespuesINSS) => {
@@ -49,14 +58,17 @@ const useCalculadoraSueldo = () => {
   // Función para calcular el salario
   const calcularSalario = (salario) => {
     const salarioBruto = parseFloat(salario) || 0;
+    const salarioBrutoQnal = parseFloat(salario)/2;
 
     // Calcular INSS
     const inss = salarioBruto * 0.07;
+    const inssQnal = inss / 2;
     const salarioDespuesINSS = salarioBruto - inss;
+    const salarioDespuesINSSQnal = salarioDespuesINSS / 2;
 
     // Calcular IR
     const ir = calcularIR(salarioDespuesINSS);
-
+    const irQnal = ir / 2;
     // Calcular salario total neto
     const salarioNetoMensual = salarioDespuesINSS - ir;
     const salarioNetoQuincenal = salarioNetoMensual / 2;
@@ -64,10 +76,14 @@ const useCalculadoraSueldo = () => {
     setResultados({
       salarioBruto: formatter.format(salarioBruto),
       inss: formatter.format(inss),
+      inssQnal: formatter.format(inssQnal),
       salarioDespuesINSS: formatter.format(salarioDespuesINSS),
+      salarioDespuesINSSQnal: formatter.format(salarioDespuesINSSQnal),
       ir: formatter.format(ir),
+      irQnal: formatter.format(irQnal),
       salarioNetoMensual: formatter.format(salarioNetoMensual),
       salarioNetoQuincenal: formatter.format(salarioNetoQuincenal),
+      salarioBrutoQnal: formatter.format(salarioBrutoQnal),
     });
 
     setIsCalculated(true);
@@ -76,6 +92,8 @@ const useCalculadoraSueldo = () => {
   const limpiarDatos = () => {
     setResultados(null);
     setIsCalculated(false);
+    setInput("");
+    localStorage.setItem("input",input);
   };
 
   return {
@@ -83,6 +101,8 @@ const useCalculadoraSueldo = () => {
     isCalculated,
     calcularSalario,
     limpiarDatos,
+    handleChange,
+    input
   };
 };
 
